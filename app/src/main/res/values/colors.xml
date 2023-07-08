@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="pink">#ff5ccb</color>
+    <color name="blue">#00f0ff</color>
+    <color name="backgroundcolor">#FFFCFC</color>
+    <color name="textHeading">#008eff</color>
+
+<!--    procare color plate-->
+    <color name="orange">#fa7c59</color>
+    <color name="black1">#ffde5c</color>
+    <color name="white1">#ffffff</color>
+    <color name="grey">#c2c2c2</color>
+    <color name="lightorange">#ffa85a</color>
+
+</resources>

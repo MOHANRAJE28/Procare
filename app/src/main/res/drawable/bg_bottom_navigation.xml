@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="ExtraText">
+    <solid android:color="@color/orange" /> <!-- Replace "your_color_here" with your desired background color -->
+    <corners
+        android:topLeftRadius="16dp"
+     android:topRightRadius="16dp"
+    android:bottomLeftRadius="0dp"
+    android:bottomRightRadius="0dp" /> <!-- Adjust the radius value to control the amount of curve -->
+</shape>
