@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -32,57 +31,56 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileFragment extends Fragment {
     FirebaseAuth auth;
     FirebaseFirestore fstore;
     private FirebaseUser firebaseUser;
     private StorageReference storageReference;
     TextView titlename,titleemail;
-    ImageView image;
+    CircleImageView image;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         titlename=view.findViewById(R.id.titlename);
         titleemail=view.findViewById(R.id.titlemail);
-        image=view.findViewById(R.id.image);
+        image=view.findViewById(R.id.profile_image);
         auth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         firebaseUser = auth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("profile");
 
+
         if (firebaseUser != null) {
             Uri photoUri = firebaseUser.getPhotoUrl();
             if (photoUri != null) {
-                Picasso.with(getContext())
-                        .load(photoUri)
-                        .into(image);
+                Picasso.with(getContext()).load(photoUri).into(image);
             } else {
-                Picasso.with(getContext())
-                        .load(R.drawable.electrician)  // Set default image
-                        .into(image);
+                Picasso.with(getContext()).load(R.drawable.dprofile).into(image); //set default image
             }
         } else {
-
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
 
 
-//        storageReference = FirebaseStorage.getInstance().getReference("profile/" + firebaseUser);
-//        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
+//        if (firebaseUser != null) {
+//            Uri photoUri = firebaseUser.getPhotoUrl();
+//            if (photoUri != null) {
 //                Picasso.with(getContext())
-//                        .load(uri)
+//                        .load(photoUri)
+//                        .into(image);
+//            } else{
+//                Picasso.with(getContext())
+//                        .load(R.drawable.electrician)  // Set default image
 //                        .into(image);
 //            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                // Handle any errors that occur while retrieving the image
-//                // For example, display a placeholder image or show an error message
-//            }
-//        });
+//        }else{
+//            startActivity(new Intent(getContext(), LoginActivity.class));
+//        }
+
+
 
         showuserdata();
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})

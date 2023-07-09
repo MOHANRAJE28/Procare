@@ -12,18 +12,24 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/image"
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
             android:layout_width="134dp"
             android:layout_height="119dp"
-            app:srcCompat="@drawable/plumber"
+            android:src="@drawable/dprofile"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.026"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.104"
-        />
+
+            />
+
         <TextView
             android:id="@+id/titlename"
             android:layout_width="wrap_content"
@@ -36,7 +42,7 @@
             android:textSize="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.112"
-            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.662" />
 
@@ -46,16 +52,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="68dp"
             android:text="mohanraj.gmail.com"
-
-
             android:textSize="20dp"
 
             app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.211"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
             app:layout_constraintTop_toTopOf="@+id/titlename"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="0.03"
             tools:ignore="DuplicateIds,NotSibling" />
 
         <RelativeLayout
@@ -229,7 +234,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.022" />

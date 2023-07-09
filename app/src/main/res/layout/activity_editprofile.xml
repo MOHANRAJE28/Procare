@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".EditprofileActivity">
 
+
+
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -20,24 +23,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.043" />
 
-
-    <ImageView
-        android:id="@+id/profileimage"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
         android:layout_width="134dp"
         android:layout_height="119dp"
         android:layout_marginTop="76dp"
-        app:srcCompat="@drawable/plumber"
+        android:src="@drawable/dprofile"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-       />
+
+        />
+
 
     <ProgressBar
         android:id="@+id/progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/profileimage"
         app:layout_constraintEnd_toEndOf="parent"

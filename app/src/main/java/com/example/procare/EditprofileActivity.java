@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -36,6 +37,8 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class EditprofileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     FirebaseAuth auth;
@@ -44,8 +47,10 @@ public class EditprofileActivity extends AppCompatActivity {
     EditText phone,name,email;
     private ProgressBar progressBar;
     private StorageReference storageReference;
-    ImageView image;
+//    ImageView image;
+    CircleImageView image;
     Button upload;
+  private  String PhotoUrl;
     private Uri uriImage;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -56,7 +61,7 @@ public class EditprofileActivity extends AppCompatActivity {
         progressBar=findViewById(R.id.progressbar);
         name=findViewById(R.id.name);
         email=findViewById(R.id.mail);
-        image=findViewById(R.id.profileimage);
+        image=findViewById(R.id.profile_image);
         upload=findViewById(R.id.upload);
 
         auth = FirebaseAuth.getInstance();
@@ -64,29 +69,23 @@ public class EditprofileActivity extends AppCompatActivity {
         firebaseUser = auth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("profile");
 
-        if (firebaseUser != null) {
+
+
+
+
+           if (firebaseUser != null) {
             Uri photoUri = firebaseUser.getPhotoUrl();
             if (photoUri != null) {
-                Picasso.with(EditprofileActivity.this)
-                        .load(photoUri)
-                        .into(image);
+                Picasso.with(EditprofileActivity.this).load(photoUri).into(image);
             } else {
-
-                Picasso.with(EditprofileActivity.this)
-                        .load(R.drawable.electrician)  // Set default image
-                        .into(image);
-                // Handle the case when the user does not have a profile image
-                // You can set a default image or show a placeholder image
+                Picasso.with(EditprofileActivity.this).load(R.drawable.dprofile).into(image); //set default image
             }
         } else {
-            // Handle the case when the user is not authenticated
-            // For example, you can redirect them to the login screen or display a message indicating that they need to log in
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
         //set the user's current qualification
         //regular URIs.
-
 
         //selecting the image from the storage
         image.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +129,8 @@ public class EditprofileActivity extends AppCompatActivity {
             FirebaseUser user = auth.getCurrentUser();
             DocumentReference df = fstore.collection("Users").document(user.getUid());
             Map<String, Object> userinfo = new HashMap<>();
+            userinfo.put("Profile photo",PhotoUrl);
+            userinfo.put("PhoneNumber",u_phone);
             userinfo.put("FullName", u_name);
             df.update(userinfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -194,12 +195,24 @@ public class EditprofileActivity extends AppCompatActivity {
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-//                            Uri downloadUri =uri;
-//                            firebaseUser = auth.getCurrentUser();
+                            if(uri != null){
+                                PhotoUrl=uri.toString();
+                                FirebaseUser user = auth.getCurrentUser();
+                                DocumentReference df = fstore.collection("Users").document(user.getUid());
+                                Map<String, Object> userinfo = new HashMap<>();
+                                userinfo.put("Profilephoto",PhotoUrl);
+                                df.update(userinfo);
+                            }
+                            Uri downloadUri = uri;
 //                            //finally set the display image of  the user after upload
-//                            UserProfileChangeRequest profileupdate =new UserProfileChangeRequest.Builder()
-//                                    .setPhotoUri(downloadUri).build();
-//                            firebaseUser.updateProfile(profileupdate);
+                            UserProfileChangeRequest profileupdate =new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(downloadUri).build();
+                            firebaseUser.updateProfile(profileupdate);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditprofileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -227,3 +240,4 @@ public class EditprofileActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 }
+
