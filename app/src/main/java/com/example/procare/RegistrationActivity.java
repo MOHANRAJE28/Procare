@@ -106,6 +106,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             userinfo.put("UserEmail",userEmail);
                             userinfo.put("PhoneNumber",userPhone);
 
+
                             //specify the if the user customer or service provider
                             if(customer.isChecked()){
                                 userinfo.put("customer","1");
