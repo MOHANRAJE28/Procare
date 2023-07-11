@@ -71,7 +71,7 @@ public class S_ProfileFragment extends Fragment {
             }
         });
 
-//        DocumentReference df1=FirebaseStorage.getInstance().getReference("qulification").
+
 
     }
 

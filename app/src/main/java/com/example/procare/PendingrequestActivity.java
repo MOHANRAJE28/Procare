@@ -1,4 +1,3 @@
-
 package com.example.procare;
 
 import androidx.annotation.Nullable;
@@ -6,11 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -19,17 +25,26 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class ElectricianListActivity extends AppCompatActivity {
+public class PendingrequestActivity extends AppCompatActivity {
+
     RecyclerView recyclerView;
-    ArrayList<User> userArrayList;
-    MyAdapter myAdapter;
-    FirebaseFirestore db;
+    ArrayList<Request> requestArrayList;
+    RequestAdapter myAdapter;
+    FirebaseAuth auth;
+    FirebaseFirestore fstore;
+    String semail;
+    private FirebaseUser firebaseUser;
     ProgressDialog progressDialog;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_electrician_list);
+        setContentView(R.layout.activity_pendingrequest);
+
+        auth =FirebaseAuth.getInstance();
+        fstore=FirebaseFirestore.getInstance();
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching Data");
@@ -37,16 +52,15 @@ public class ElectricianListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        db = FirebaseFirestore.getInstance();
-        userArrayList = new ArrayList<User>();
-        myAdapter = new MyAdapter(ElectricianListActivity.this, userArrayList);
+        fstore = FirebaseFirestore.getInstance();
+        requestArrayList = new ArrayList<Request>();
+        myAdapter = new RequestAdapter(PendingrequestActivity.this,  requestArrayList);
         recyclerView.setAdapter(myAdapter);
-        EventchangeLister();
+        showuserdata();
     }
     private void EventchangeLister() {
-        db.collection("Users")
-                .whereEqualTo("Qualification", "electrician")
-                .orderBy("FullName", Query.Direction.ASCENDING)
+        fstore.collection("Request")
+                .whereEqualTo("ProviderEmail", semail) // Filter requests by ProviderEmail field
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -56,17 +70,37 @@ public class ElectricianListActivity extends AppCompatActivity {
                             Log.e("Firestore error", error.getMessage());
                             return;
                         }
-
-                        userArrayList.clear(); // Clear the previous list
+                        requestArrayList.clear(); // Clear the previous list
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
-                                userArrayList.add(dc.getDocument().toObject(User.class));
+                                requestArrayList.add(dc.getDocument().toObject(Request.class));
                             }
                         }
+
                         myAdapter.notifyDataSetChanged();
                         if (progressDialog != null && progressDialog.isShowing())
                             progressDialog.dismiss();
                     }
                 });
     }
+
+
+    public void showuserdata() {
+        firebaseUser = auth.getCurrentUser();
+        if (firebaseUser != null) {
+            semail = firebaseUser.getEmail(); // Retrieve the email of the current user
+            Toast.makeText(PendingrequestActivity.this, semail, Toast.LENGTH_SHORT).show(); // Display the email in a toast message
+            // Call EventchangeLister() here to fetch requests for the current user
+            EventchangeLister();
+        } else {
+            // Handle the case when the user is not authenticated
+            // For example, you can redirect them to the login screen or display a message indicating that they need to log in
+            startActivity(new Intent(PendingrequestActivity.this, LoginActivity.class));
+        }
+    }
+
+
+
 }
+
+//   .whereEqualTo("ProviderEmail", "vk2gmail.com")

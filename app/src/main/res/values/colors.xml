@@ -16,6 +16,8 @@
     <color name="grey">#c2c2c2</color>
     <color name="lightorange">#ffa85a</color>
     <color name="lightblue">#1e94ec</color>
-
+    <color name="lightgrey">#f4f4f4</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#769d00</color>
 
 </resources>

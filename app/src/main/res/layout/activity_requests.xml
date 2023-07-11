@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RequestsActivity">
+
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fill out the servers details"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintVertical_bias="0.01999998"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-16dp">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="1"
+            android:rowCount="3">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#fff8f1"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="start">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="Date"
+                        android:textAlignment="center"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/date"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:backgroundTint="@color/lightgrey"
+                        android:hint="  DD-MM-YYYY"
+                        android:inputType="date"
+                        android:textSize="28dp" />
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#fff8f1"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="Time"
+                        android:textAlignment="center"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/time"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:backgroundTint="@color/lightgrey"
+                        android:hint="  hh:mm"
+                        android:inputType="date"
+                        android:textSize="28dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#fff8f1"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="Description"
+                        android:textAlignment="center"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/description"
+                        android:layout_width="330dp"
+                        android:layout_height="120dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:backgroundTint="@color/lightgrey"
+                        android:gravity="top|start"
+                        android:hint="  Description"
+                        android:textSize="28dp" />
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </GridLayout>
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/mapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toTopOf="@id/send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:onClick="send"
+        android:text=" Send"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintVertical_bias="0.934" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

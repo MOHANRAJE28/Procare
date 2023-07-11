@@ -16,16 +16,14 @@
 
         <ImageView
             android:id="@+id/image1"
-            android:layout_width="142dp"
-            android:layout_height="136dp"
+            android:layout_width="135dp"
+            android:layout_height="121dp"
             android:layout_marginStart="8dp"
+            android:src="@drawable/dprofile"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageView2"
-            app:layout_constraintHorizontal_bias="0.026"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.104"
-            tools:src="@drawable/plumber"
             tools:ignore="UnknownIdInLayout" />
 
         <TextView
@@ -34,9 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="92dp"
-            android:text="customer"
+            android:text="service name"
             android:textSize="26dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.112"
             app:layout_constraintStart_toEndOf="@+id/image1"
@@ -226,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Customer Profile"
+            android:text="Service Profile"
             android:textSize="26dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

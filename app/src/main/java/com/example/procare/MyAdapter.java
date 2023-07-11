@@ -1,6 +1,7 @@
 package com.example.procare;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyviewHolder> {
         User user = userArrayList.get(position);
         holder.sname.setText(user.FullName);
         holder.sphone.setText(user.PhoneNumber);
+        holder.servicename.setText(user.Qualification);
+        holder.email.setText(user.UserEmail);
 //        holder.profileimage.setImageURI(Uri.parse(user.Profilephoto));
         if(user.Profilephoto != null){
          Glide.with(context)
@@ -58,6 +61,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyviewHolder> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context,"card"+position,Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(context,EletricbookActivity.class);
+                intent.putExtra("profile",userArrayList.get(position).getProfilephoto());
+                intent.putExtra("name",userArrayList.get(position).getFullName());
+                intent.putExtra("phone",userArrayList.get(position).getPhoneNumber());
+                intent.putExtra("email",userArrayList.get(position).getUserEmail());
+                intent.putExtra("servicename",userArrayList.get(position).getQualification());
+
+                context.startActivity(intent);
             }
         });
     }
@@ -70,14 +81,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyviewHolder> {
     public static class MyviewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView profileimage;
-        TextView sname,sphone;
+        TextView sname,sphone,servicename,email;
         CardView cardview;
+
         public MyviewHolder(@NonNull View itemView) {
             super(itemView);
             profileimage=itemView.findViewById(R.id.profile_image);
             sname=itemView.findViewById(R.id.electriname);
             sphone=itemView.findViewById(R.id.electriph);
+            email=itemView.findViewById(R.id.email);
+            servicename=itemView.findViewById(R.id.servicename);
             cardview =itemView.findViewById(R.id.cardviewelectri);
+
         }
     }
 

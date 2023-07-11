@@ -2,10 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission
         android:name="android.permission.MANAGE_DOCUMENTS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +24,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Procare"
         tools:targetApi="31">
+        <activity
+            android:name=".BookingDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pendingrequestActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".PendingrequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RequestsActivity"
+            android:exported="false" />
         <activity
             android:name=".EletricbookActivity"
             android:exported="false" />
@@ -41,7 +60,7 @@
         <activity
             android:name=".MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps"></activity>
         <activity
             android:name=".EditprofileActivity"
             android:exported="false" />
@@ -50,7 +69,9 @@
             android:exported="false" />
         <activity
             android:name=".S_HomeActivity"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".OnboardingActivity"
             android:exported="true" />
@@ -71,6 +92,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <meta-data
