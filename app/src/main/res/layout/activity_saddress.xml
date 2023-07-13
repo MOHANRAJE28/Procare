@@ -25,76 +25,60 @@
 
 
     <EditText
-        android:id="@+id/houseno"
+        android:id="@+id/address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_bg"
-        android:hint=" House No,Building Name(Request)*"
+        android:hint=" Addresss"
         android:padding="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/street"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
-
-    <EditText
-        android:id="@+id/street"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:background="@drawable/edit_text_bg"
-        android:hint=" Road name,Area,Colony (Required)*"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <EditText
-        android:id="@+id/distate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/edit_text_bg"
-        android:hint="  District , State (Required)*"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/street"
-         />
-
-    <EditText
-        android:id="@+id/pincode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_bg"
-        android:hint="  Pinecode (Required)*"
-        android:padding="15dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/distate"
-       />
+        app:layout_constraintVertical_bias="0.115" />
 
 
+    <!--    <FrameLayout-->
+<!--        android:id="@+id/mapFragment"-->
+<!--        android:background="@color/lightgrey"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="370dp"-->
+<!--        android:layout_marginBottom="72dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/submit"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent" >-->
 
+<!--        <EditText-->
+<!--            android:id="@+id/searchEditText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Search for a location" />-->
+<!--    </FrameLayout>-->
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        app:layout_constraintBottom_toTopOf="@+id/submit"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        tools:layout_editor_absoluteX="16dp" />
 
     <Button
         android:id="@+id/submit"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange"
         android:onClick="submit"
         android:text="Submit"
-        android:backgroundTint="@color/orange"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pincode"
-        app:layout_constraintVertical_bias=".4"
-        />
-
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        app:layout_constraintVertical_bias="0.969" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

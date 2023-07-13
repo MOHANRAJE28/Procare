@@ -11,6 +11,7 @@
     <uses-permission
         android:name="android.permission.MANAGE_DOCUMENTS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -55,12 +56,14 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDUF3dPSGwW4vbo9p9sG-SSyIcu37sWgf8" />
+            android:value="AIzaSyBZ8c8QmfFf95bbtmLJZDMr5G0-btxxB6s" />
 
         <activity
             android:name=".MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps">
+
+        </activity>
         <activity
             android:name=".EditprofileActivity"
             android:exported="false" />
@@ -83,15 +86,23 @@
             android:exported="true" />
         <activity
             android:name=".S_AddressActivity"
-            android:exported="true" />
+            android:exported="true">
+
+
+        </activity>
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
 
         </activity>
 

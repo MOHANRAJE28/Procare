@@ -179,14 +179,28 @@
     </RelativeLayout>
 
 
-    <FrameLayout
+<!--    <FrameLayout-->
+<!--        android:id="@+id/mapFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/send"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />-->
+
+
+    <fragment
         android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        app:layout_constraintBottom_toTopOf="@id/send"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/send"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/send"
@@ -201,7 +215,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintVertical_bias="0.934" />
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
