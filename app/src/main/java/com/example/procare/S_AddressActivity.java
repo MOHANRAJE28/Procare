@@ -186,6 +186,9 @@ package com.example.procare;//package com.example.procare;
 //
 //
 //
+
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -348,6 +351,7 @@ public class S_AddressActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(this);
     }
     @Override

@@ -1,8 +1,6 @@
-
 package com.example.procare;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -37,7 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElectricianListActivity extends AppCompatActivity  implements OnMapReadyCallback {//implements OnMapReadyCallback
+public class ElectricianListActivity extends AppCompatActivity implements OnMapReadyCallback {
     RecyclerView recyclerView;
     ArrayList<User> userArrayList;
     MyAdapter myAdapter;
@@ -46,7 +44,7 @@ public class ElectricianListActivity extends AppCompatActivity  implements OnMap
 
     double latitude;
     double longitude;
-    //google map
+    // Google map
     private GoogleMap mMap;
     private final int FINE_PERMISSION_CODE = 1;
     Location currentLocation;
@@ -64,23 +62,18 @@ public class ElectricianListActivity extends AppCompatActivity  implements OnMap
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fstore = FirebaseFirestore.getInstance();
-        userArrayList = new ArrayList<User>();
+        userArrayList = new ArrayList<>();
         myAdapter = new MyAdapter(ElectricianListActivity.this, userArrayList);
         recyclerView.setAdapter(myAdapter);
-        //google map
+        // Google map
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         getLastLocation();
-        latitude = currentLocation.getLatitude();
-        longitude = currentLocation.getLongitude();
-        EventchangeLister();
-
-//0.1
     }
 
     private void EventchangeLister() {
         fstore.collection("Users")
-                .whereEqualTo("Qualification", "electrician") // Filter requests by ProviderEmail field
+                .whereEqualTo("Qualification", "electrician") // Filter electricians by Qualification field
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -90,10 +83,39 @@ public class ElectricianListActivity extends AppCompatActivity  implements OnMap
                             Log.e("Firestore error", error.getMessage());
                             return;
                         }
+
+                        if (currentLocation == null) {
+                            // Handle the case when currentLocation is null (location not available)
+                            if (progressDialog != null && progressDialog.isShowing())
+                                progressDialog.dismiss();
+                            return;
+                        }
+
                         userArrayList.clear(); // Clear the previous list
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
-                                userArrayList.add(dc.getDocument().toObject(User.class));
+                                User electrician = dc.getDocument().toObject(User.class);
+                                // Check if electrician's location is within the desired range
+                                double electricianLatitude = electrician.getSlatitude();
+                                double electricianLongitude = electrician.getSlongitude();
+
+                                // Define the range value (10 km)
+                                double range = 20;
+                                // Calculate the distance between the current user's location and the electrician's location
+                                float[] distanceResults = new float[1];
+                                Location.distanceBetween(currentLocation.getLatitude(), currentLocation.getLongitude(),
+                                        electricianLatitude, electricianLongitude, distanceResults);
+                                // Check if the electrician's location is within the range
+                                if (distanceResults[0] <= range * 1000) {
+                                    userArrayList.add(electrician);
+
+                                    // Add a marker for the electrician's location on the map
+                                    LatLng electricianLatLng = new LatLng(electricianLatitude, electricianLongitude);
+                                    mMap.addMarker(new MarkerOptions()
+                                            .position(electricianLatLng)
+                                            .title(electrician.getFullName()));
+                                }
+
                             }
                         }
 
@@ -104,21 +126,25 @@ public class ElectricianListActivity extends AppCompatActivity  implements OnMap
                 });
     }
 
-        private void getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+    private void getLastLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
             return;
         }
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
 
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if(location != null){
-                    currentLocation =location;
-                    SupportMapFragment mapFragment = new SupportMapFragment();
-                    getSupportFragmentManager().beginTransaction().add(R.id.mapFragment, mapFragment).commit();
-                    mapFragment.getMapAsync( ElectricianListActivity.this);
+                if (location != null) {
+                    currentLocation = location;
+                    latitude = currentLocation.getLatitude();
+                    longitude = currentLocation.getLongitude();
+                    EventchangeLister();
+                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+                    mapFragment.getMapAsync(ElectricianListActivity.this);
+                } else {
+                    Toast.makeText(ElectricianListActivity.this, "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -127,76 +153,51 @@ public class ElectricianListActivity extends AppCompatActivity  implements OnMap
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng currentUserLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(currentUserLocation).title("My Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentUserLocation, 15f));
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(sydney).title("My Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        float zoomLevel = 15f; // Set your desired zoom level here
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoomLevel));
+        // Add zoom controls to the map
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (requestCode == FINE_PERMISSION_CODE) {
-        } else {
-            Toast.makeText(this, "Location permission is denied allow the permission", Toast.LENGTH_SHORT).show();
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
+            } else {
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 }
 
 
 
-//google map
-//    private void getLastLocation() {
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
-//            return;
-//        }
-//        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-//
-//        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-//            @Override
-//            public void onSuccess(Location location) {
-//                if(location != null){
-//                    currentLocation =location;
-//                    SupportMapFragment mapFragment = new SupportMapFragment();
-//                    getSupportFragmentManager().beginTransaction().add(R.id.mapFragment, mapFragment).commit();
-//                    mapFragment.getMapAsync( ElectricianListActivity.this);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("My Location"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//        float zoomLevel = 15f; // Set your desired zoom level here
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoomLevel));
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        if (requestCode == FINE_PERMISSION_CODE){
-//           }else {
-////                Toast.makeText(this,"Location permission is denied allow the permission",Toast.LENGTH_SHORT).show();
-////              if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//                getLastLocation();
-//           }
-//
-//        }
-//    }
-//
+////    private void EventchangeLister() {
+////        fstore.collection("Users")
+////                .whereEqualTo("Qualification", "electrician") // Filter requests by ProviderEmail field
+////                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+////                    @Override
+////                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+////                        if (error != null) {
+////                            if (progressDialog != null && progressDialog.isShowing())
+////                                progressDialog.dismiss();
+////                            Log.e("Firestore error", error.getMessage());
+////                            return;
+////                        }
+////                        userArrayList.clear(); // Clear the previous list
+////                        for (DocumentChange dc : value.getDocumentChanges()) {
+////                            if (dc.getType() == DocumentChange.Type.ADDED) {
+////                                userArrayList.add(dc.getDocument().toObject(User.class));
+////                            }
+////                        }
+////
+////                        myAdapter.notifyDataSetChanged();
+////                        if (progressDialog != null && progressDialog.isShowing())
+////                            progressDialog.dismiss();
+////                    }
+////                });
+////    }}

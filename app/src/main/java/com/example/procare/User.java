@@ -2,16 +2,37 @@ package com.example.procare;
 
 public class User {
 
-    String FullName,PhoneNumber,Profilephoto,Qualification,UserEmail, uid;;
+    String FullName,PhoneNumber,Profilephoto,Qualification,UserEmail, uid;
+
+    private double Slatitude; // Service provider's latitude
+    private double Slongitude;
     public User(){}
 
-    public User(String fullName, String phoneNumber, String profilephoto, String qualification, String userEmail, String uid) {
+    public User(String fullName, String phoneNumber, String profilephoto, String qualification, String userEmail, String uid, double slatitude, double slongitude) {
         FullName = fullName;
         PhoneNumber = phoneNumber;
         Profilephoto = profilephoto;
         Qualification = qualification;
         UserEmail = userEmail;
         this.uid = uid;
+        Slatitude = slatitude;
+        Slongitude = slongitude;
+    }
+
+    public double getSlatitude() {
+        return Slatitude;
+    }
+
+    public void setSlatitude(double slatitude) {
+        Slatitude = slatitude;
+    }
+
+    public double getSlongitude() {
+        return Slongitude;
+    }
+
+    public void setSlongitude(double slongitude) {
+        Slongitude = slongitude;
     }
 
     public String getUid() {
