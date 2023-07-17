@@ -3,9 +3,11 @@ package com.example.procare;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -25,12 +28,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class S_ProfileFragment extends Fragment {
     FirebaseAuth auth;
     FirebaseFirestore fstore;
+    private FirebaseUser firebaseUser;
     TextView titlename,titleemail;
-    ImageView img;
+    ImageView image;
     private StorageReference storageReference;
 
     @SuppressLint("MissingInflatedId")
@@ -39,12 +44,35 @@ public class S_ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_s__profile, container, false);
 
-        img=view.findViewById(R.id.image1);
+        image=view.findViewById(R.id.profile_image);
         titlename=view.findViewById(R.id.titlename);
         titleemail=view.findViewById(R.id.titlemail);
-        showuserdata();
-
         Button logout = view.findViewById(R.id.logout);
+        auth = FirebaseAuth.getInstance();
+        fstore = FirebaseFirestore.getInstance();
+        firebaseUser = auth.getCurrentUser();
+        storageReference = FirebaseStorage.getInstance().getReference("profile");
+        if (firebaseUser != null) {
+            Uri photoUri = firebaseUser.getPhotoUrl();
+            if (photoUri != null) {
+                Picasso.with(getContext()).load(photoUri).into(image);
+            } else {
+                Picasso.with(getContext()).load(R.drawable.dprofile).into(image); //set default image
+            }
+        } else {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+        }
+
+
+        showuserdata();
+        CardView profile = view.findViewById(R.id.sprofiledetail);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),EditprofileActivity.class));
+            }
+        });
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,16 +89,25 @@ public class S_ProfileFragment extends Fragment {
     public void showuserdata(){
         auth =FirebaseAuth.getInstance();
         fstore=FirebaseFirestore.getInstance();
-        DocumentReference df = FirebaseFirestore.getInstance().collection("Users").document(auth.getCurrentUser().getUid());
-        df.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                titleemail.setText(value.getString("UserEmail"));
+        firebaseUser=auth.getCurrentUser();
 
-                titlename.setText(value.getString("FullName"));
-            }
-        });
+        if (auth.getCurrentUser() != null) {
+            DocumentReference df = fstore.collection("Users").document(auth.getCurrentUser().getUid());
+            df.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (value != null) {
+                        titleemail.setText(value.getString("UserEmail"));
+                        titlename.setText(value.getString("FullName"));
+                    }
+                }
+            });
 
+        } else {
+            // Handle the case when the user is not authenticated
+            // For example, you can redirect them to the login screen or display a message indicating that they need to log in
+            startActivity(new Intent(getContext(),LoginActivity.class));
+        }
 
 
     }

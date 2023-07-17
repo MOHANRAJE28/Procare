@@ -6,25 +6,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".S_ProfileFragment">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <!--        content details-->
-
-
-        <ImageView
-            android:id="@+id/image1"
-            android:layout_width="135dp"
-            android:layout_height="121dp"
-            android:layout_marginStart="8dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="134dp"
+            android:layout_height="119dp"
             android:src="@drawable/dprofile"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.026"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.104"
-            tools:ignore="UnknownIdInLayout" />
+
+            />
 
         <TextView
             android:id="@+id/titlename"
@@ -32,11 +34,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="92dp"
-            android:text="service name"
+            android:text="servie provider"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.112"
-            app:layout_constraintStart_toEndOf="@+id/image1"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.662" />
 
@@ -46,16 +50,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="68dp"
             android:text="mohanraj.gmail.com"
-
-
             android:textSize="20dp"
 
             app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.211"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
             app:layout_constraintTop_toTopOf="@+id/titlename"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="0.03"
             tools:ignore="DuplicateIds,NotSibling" />
 
         <RelativeLayout
@@ -180,7 +183,7 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/profiledetail"
+                    android:id="@+id/sprofiledetail"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:layout_row="0"
@@ -229,7 +232,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.022" />
@@ -249,5 +251,4 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
             app:layout_constraintVertical_bias="0.503" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>

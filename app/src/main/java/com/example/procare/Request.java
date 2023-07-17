@@ -2,19 +2,28 @@ package com.example.procare;
 
 public class Request {
 
-    String CustomerTime,CustomerDate,CustomerDescription,CustomerEmail,CustomerName,CustomerNumber;
+    String CustomerTime,CustomerDate,CustomerDescription,CustomerEmail,CustomerName,CustomerNumber,CProfile;
     Double Clatitude,Clongitude;
 
     public Request(){}
-    public Request(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber,Double clatitude,Double clongitude) {
+    public Request(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber, String CProfile, Double clatitude, Double clongitude) {
         CustomerTime = customerTime;
         CustomerDate = customerDate;
         CustomerDescription = customerDescription;
         CustomerEmail = customerEmail;
         CustomerName = customerName;
         CustomerNumber = customerNumber;
-        Clongitude= clongitude;
-        Clatitude=clatitude;
+        this.CProfile = CProfile;
+        Clatitude = clatitude;
+        Clongitude = clongitude;
+    }
+
+    public String getCProfile() {
+        return CProfile;
+    }
+
+    public void setCProfile(String CProfile) {
+        this.CProfile = CProfile;
     }
 
     public Double getClatitude() {

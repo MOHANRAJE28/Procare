@@ -2,16 +2,25 @@ package com.example.procare;
 
 public class Booking {
 
-    String CustomerTime,CustomerDate,CustomerDescription,ProviderEmail,ProviderName,ProviderNumber;
+    String CustomerTime,CustomerDate,CustomerDescription,ProviderEmail,ProviderName,ProviderNumber,SProfile;
 
     public Booking(){}
-    public Booking(String customerTime, String customerDate, String customerDescription, String providerEmail, String providerName, String providerNumber) {
+    public Booking(String customerTime, String customerDate, String customerDescription, String providerEmail, String providerName, String providerNumber, String SProfile) {
         CustomerTime = customerTime;
         CustomerDate = customerDate;
         CustomerDescription = customerDescription;
         ProviderEmail = providerEmail;
         ProviderName = providerName;
         ProviderNumber = providerNumber;
+        this.SProfile = SProfile;
+    }
+
+    public String getSProfile() {
+        return SProfile;
+    }
+
+    public void setSProfile(String SProfile) {
+        this.SProfile = SProfile;
     }
 
     public String getCustomerTime() {

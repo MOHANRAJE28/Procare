@@ -109,10 +109,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             //specify the if the user customer or service provider
                             if(customer.isChecked()){
-                                userinfo.put("customer","1");
+                                userinfo.put("customer","customer");
                             }
                             if(service.isChecked()){
-                                userinfo.put("serviceprovider","1");
+                                userinfo.put("serviceprovider","serviceprovider");
                             }
                             df.set(userinfo);
 

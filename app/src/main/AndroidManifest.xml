@@ -26,11 +26,20 @@
         android:theme="@style/Theme.Procare"
         tools:targetApi="31">
         <activity
+            android:name=".S_EditprofileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PriceAddActivity"
+            android:exported="false" />
+        <activity
             android:name=".BookingDetailActivity"
             android:exported="false" />
         <activity
             android:name=".pendingrequestActivity2"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".PendingrequestActivity"
             android:exported="false" />
@@ -61,9 +70,7 @@
         <activity
             android:name=".MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps">
-
-        </activity>
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".EditprofileActivity"
             android:exported="false" />
@@ -86,23 +93,15 @@
             android:exported="true" />
         <activity
             android:name=".S_AddressActivity"
-            android:exported="true">
-
-
-        </activity>
-
-
-
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
 
         </activity>
 

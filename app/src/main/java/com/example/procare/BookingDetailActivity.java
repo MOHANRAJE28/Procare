@@ -1,5 +1,6 @@
 package com.example.procare;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -9,9 +10,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class BookingDetailActivity extends AppCompatActivity {
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
-    TextView cname, serviceanme, desc, sdate, stime;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class BookingDetailActivity extends AppCompatActivity {
+    FirebaseAuth auth;
+    FirebaseFirestore fstore;
+    CircleImageView profileimg;
+    private FirebaseUser firebaseUser;
+    TextView cname, serviceanme, desc, sdate, stime, request;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -25,6 +40,11 @@ public class BookingDetailActivity extends AppCompatActivity {
         desc = findViewById(R.id.description);
         sdate = findViewById(R.id.date);
         stime = findViewById(R.id.time);
+        request = findViewById(R.id.request);
+        profileimg =findViewById(R.id.profile_image);
+
+
+
 
         Intent intent = getIntent();
         String name = intent.getExtras().getString("name");
@@ -32,15 +52,27 @@ public class BookingDetailActivity extends AppCompatActivity {
         String description = intent.getExtras().getString("description");
         String date = intent.getExtras().getString("date");
         String time = intent.getExtras().getString("time");
-        String email =intent.getExtras().getString("email");
+        String email = intent.getExtras().getString("email");
+        String profile = intent.getStringExtra("profile");
 
+        //
+        String profileUrl = intent.getStringExtra("profile");
+
+        if (profileUrl != null && !profileUrl.isEmpty()) {
+            Glide.with(getApplication()).load(profileUrl).into(profileimg);
+        } else {
+            Glide.with(getApplication()).load(R.drawable.dprofile).into(profileimg);
+        }
+
+
+//        showuserdata();
 
         cname.setText(name);
         serviceanme.setText(phone);
         desc.setText(description);
         sdate.setText(date);
         stime.setText(time);
-
+//        request.setText();
 
         findViewById(R.id.phone).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,16 +93,29 @@ public class BookingDetailActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
     }
-}
+
+
+        public void showuserdata() {
+            auth = FirebaseAuth.getInstance();
+            fstore = FirebaseFirestore.getInstance();
+            firebaseUser = auth.getCurrentUser();
+
+            if (auth.getCurrentUser() != null) {
+                DocumentReference df = fstore.collection("Booking").document(auth.getCurrentUser().getUid());
+                df.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (value != null) {
+                            request.setText(value.getString("Request"));
+
+                        }
+                    }
+                });
+
+            } else {
+                startActivity(new Intent(BookingDetailActivity.this, LoginActivity.class));
+            }
+
+        }
+    }

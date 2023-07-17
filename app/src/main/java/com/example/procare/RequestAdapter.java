@@ -12,9 +12,13 @@ import android.content.Context;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHolder> {
     Context context;
@@ -40,6 +44,19 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
         holder.cemail.setText(request.CustomerEmail);
         holder.servicename.setText(request.CustomerDescription);
 
+        if(request.CProfile != null){
+            Glide.with(context)
+                    .load(request.getCProfile())
+                    .into(holder.profileimage);}
+        else {
+            Glide.with(context)
+                    .load(R.drawable.dprofile)
+                    .into(holder.profileimage);
+
+        }
+
+
+
 
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +72,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
                 intent.putExtra("description",requestArrayList.get(position).getCustomerDescription());
                 intent.putExtra("clongitude",requestArrayList.get(position).getClongitude());
                 intent.putExtra("clatitude",requestArrayList.get(position).getClatitude());
+                intent.putExtra("profile",requestArrayList.get(position).getCProfile());
                 context.startActivity(intent);
             }
         });
@@ -71,6 +89,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
 
         TextView cname, cphone, servicename, cemail;
         CardView cardview;
+        CircleImageView profileimage;
         public MyviewHolder(@NonNull View itemView) {
             super(itemView);
             cname = itemView.findViewById(R.id.electriname);
@@ -78,6 +97,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
             servicename = itemView.findViewById(R.id.servicename);
             cemail = itemView.findViewById(R.id.email);
             cardview =itemView.findViewById(R.id.cardviewelectri);
+            profileimage=itemView.findViewById(R.id.profile_image);
         }
     }
 }

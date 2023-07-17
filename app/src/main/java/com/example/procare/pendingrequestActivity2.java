@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,18 +30,28 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.checkerframework.checker.units.qual.A;
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class pendingrequestActivity2 extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private final int FINE_PERMISSION_CODE = 1;
     Location currentLocation;
+    FirebaseFirestore fstore;
+    CircleImageView profileimg;
     FusedLocationProviderClient fusedLocationProviderClient;
     TextView cname, cphone, desc, sdate, stime;
     double latitude,longitude;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,9 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
         desc = findViewById(R.id.description);
         sdate = findViewById(R.id.date);
         stime = findViewById(R.id.time);
+        profileimg =findViewById(R.id.profile_image);
+        fstore = FirebaseFirestore.getInstance();
+
 
         Intent intent = getIntent();
         String name = intent.getExtras().getString("name");
@@ -58,11 +73,21 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
         String description = intent.getExtras().getString("description");
         String date = intent.getExtras().getString("date");
         String time = intent.getExtras().getString("time");
-        String email = intent.getExtras().getString("email");
+         email = intent.getExtras().getString("email");
+         String profile =intent.getExtras().getString("profile");
 
         latitude = intent.getDoubleExtra("clatitude", 0.0);
         longitude = intent.getDoubleExtra("clongitude", 0.0);
 
+
+        //
+        String profileUrl = intent.getStringExtra("profile");
+
+        if (profileUrl != null && !profileUrl.isEmpty()) {
+            Glide.with(getApplication()).load(profileUrl).into(profileimg);
+        } else {
+            Glide.with(getApplication()).load(R.drawable.dprofile).into(profileimg);
+        }
 
         cname.setText(name);
         cphone.setText(phone);
@@ -135,15 +160,17 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
             }else {
                 Toast.makeText(this,"Location permission is denied allow the permission",Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
     public void accept(View view){
 
 
-
-
+        DocumentReference df = fstore.collection("Booking").document(email);
+        Map<String, Object> userinfo = new HashMap<>();
+        userinfo.put("Request","Approved");
+        df.update(userinfo);
+        Toast.makeText(this,"successfully Approved",Toast.LENGTH_SHORT).show();
 
     }
 

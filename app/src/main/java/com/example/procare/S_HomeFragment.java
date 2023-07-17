@@ -14,18 +14,27 @@ import android.view.ViewGroup;
 
 public class S_HomeFragment extends Fragment {
 
-    CardView  pending;
+    CardView  pending,complete;
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_s__home, container, false);
         pending =view.findViewById(R.id.pending);
+        complete=view.findViewById(R.id.complete);
+
 
         pending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(),PendingrequestActivity.class));
+            }
+        });
+
+        complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PriceAddActivity.class));
             }
         });
 

@@ -31,7 +31,7 @@ public class S_HomeActivity extends AppCompatActivity {
                 replaceFragment(new S_HomeFragment());
             }
             else if (id ==  R.id.books) {
-                replaceFragment(new S_BookFragment());
+                replaceFragment(new S_PriceAddFragment());
             } else if (id == R.id.profile) {
 
                 replaceFragment(new S_ProfileFragment());

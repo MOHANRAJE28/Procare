@@ -13,7 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyviewHolder> {
 
@@ -41,6 +45,19 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyviewHo
         holder.semail.setText(booking.ProviderEmail);
 //        holder.servicename.setText(booking.);
 
+        if(booking.SProfile != null){
+            Glide.with(context)
+                    .load(booking.getSProfile())
+                    .into(holder.profileimage);}
+        else {
+            Glide.with(context)
+                    .load(R.drawable.dprofile)
+                    .into(holder.profileimage);
+
+        }
+
+
+
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +70,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyviewHo
                 intent.putExtra("date",bookingArrayList.get(position).getCustomerDate());
                 intent.putExtra("time",bookingArrayList.get(position).getCustomerTime());
                 intent.putExtra("description",bookingArrayList.get(position).getCustomerDescription());
+                intent.putExtra("profile",bookingArrayList.get(position).getSProfile());
                 context.startActivity(intent);
             }
         });
@@ -70,9 +88,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyviewHo
     public static class MyviewHolder extends RecyclerView.ViewHolder {
 
         TextView sname, sphone, servicename, semail;
+        CircleImageView profileimage;
         CardView cardview;
         public MyviewHolder(@NonNull View itemView) {
             super(itemView);
+            profileimage=itemView.findViewById(R.id.profile_image);
             sname = itemView.findViewById(R.id.electriname);
             sphone = itemView.findViewById(R.id.electriph);
             servicename = itemView.findViewById(R.id.servicename);

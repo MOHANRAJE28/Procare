@@ -1,6 +1,8 @@
 package com.example.procare;
 
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -11,13 +13,8 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +36,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class EditprofileActivity extends AppCompatActivity {
+public class S_EditprofileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     FirebaseAuth auth;
     private FirebaseUser firebaseUser;
@@ -47,16 +44,17 @@ public class EditprofileActivity extends AppCompatActivity {
     EditText phone,name,email;
     private ProgressBar progressBar;
     private StorageReference storageReference;
-//    ImageView image;
+    //    ImageView image;
     CircleImageView image;
     Button upload;
-  private  String PhotoUrl;
+    private  String PhotoUrl;
     private Uri uriImage;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editprofile);
+        setContentView(R.layout.activity_seditprofile);
         phone=findViewById(R.id.phone);
         progressBar=findViewById(R.id.progressbar);
         name=findViewById(R.id.name);
@@ -74,12 +72,12 @@ public class EditprofileActivity extends AppCompatActivity {
 
 
 
-           if (firebaseUser != null) {
+        if (firebaseUser != null) {
             Uri photoUri = firebaseUser.getPhotoUrl();
             if (photoUri != null) {
-                Picasso.with(EditprofileActivity.this).load(photoUri).into(image);
+                Picasso.with(S_EditprofileActivity.this).load(photoUri).into(image);
             } else {
-                Picasso.with(EditprofileActivity.this).load(R.drawable.dprofile).into(image); //set default image
+                Picasso.with(S_EditprofileActivity.this).load(R.drawable.dprofile).into(image); //set default image
             }
         } else {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -108,15 +106,15 @@ public class EditprofileActivity extends AppCompatActivity {
 
 
         if (auth.getCurrentUser() != null) {
-        DocumentReference df = FirebaseFirestore.getInstance().collection("Users").document(auth.getCurrentUser().getUid());
-        df.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                email.setText(value.getString("UserEmail"));
-                name.setText(value.getString("FullName"));
-                phone.setText(value.getString("PhoneNumber"));
-            }
-        });
+            DocumentReference df = FirebaseFirestore.getInstance().collection("Users").document(auth.getCurrentUser().getUid());
+            df.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    email.setText(value.getString("UserEmail"));
+                    name.setText(value.getString("FullName"));
+                    phone.setText(value.getString("PhoneNumber"));
+                }
+            });
         }else {
             // Handle the case when the user is not authenticated
             // For example, you can redirect them to the login screen or display a message indicating that they need to log in
@@ -137,16 +135,16 @@ public class EditprofileActivity extends AppCompatActivity {
             userinfo.put("PhoneNumber",u_phone);
             userinfo.put("FullName", u_name);
             df.update(userinfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(EditprofileActivity.this, "Successfully updated", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditprofileActivity.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(S_EditprofileActivity.this, "Successfully updated", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(S_EditprofileActivity.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -216,32 +214,37 @@ public class EditprofileActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditprofileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(S_EditprofileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
                         }
                     });
 
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(EditprofileActivity.this,"Upload Successfully",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(S_EditprofileActivity.this,"Upload Successfully",Toast.LENGTH_SHORT).show();
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(EditprofileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(S_EditprofileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
                 }
             });
         }else {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(EditprofileActivity.this,"No file was selected",Toast.LENGTH_SHORT).show();
+            Toast.makeText(S_EditprofileActivity.this,"No file was selected",Toast.LENGTH_SHORT).show();
         }
     }
-
     private String getFileExtension(Uri uri){
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime =MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 }
+
+
+
+
+
+
 
