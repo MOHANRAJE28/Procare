@@ -2,6 +2,7 @@ package com.example.procare;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
                 intent.putExtra("clongitude",requestArrayList.get(position).getClongitude());
                 intent.putExtra("clatitude",requestArrayList.get(position).getClatitude());
                 intent.putExtra("profile",requestArrayList.get(position).getCProfile());
+                intent.putExtra("servicetype",requestArrayList.get(position).getServiceType());
+
+
                 context.startActivity(intent);
             }
         });
@@ -81,6 +85,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
 
 
     }
+
     @Override
     public int getItemCount() {
         return requestArrayList.size();

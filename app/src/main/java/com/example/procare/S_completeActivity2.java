@@ -4,19 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
-import android.content.Context;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.Manifest;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -24,7 +21,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -39,15 +35,13 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import org.checkerframework.checker.units.qual.A;
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class pendingrequestActivity2 extends AppCompatActivity implements OnMapReadyCallback {
+public class S_completeActivity2 extends AppCompatActivity implements OnMapReadyCallback {
+
     FirebaseAuth auth;
     FirebaseFirestore fstore;
     private FirebaseUser firebaseUser;
@@ -63,10 +57,14 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
     double latitude,longitude;
     String email;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pendingrequest2);
+        setContentView(R.layout.activity_scomplete2);
+
+
 
         cname = findViewById(R.id.cname);
         cphone = findViewById(R.id.phonenumber);
@@ -84,26 +82,28 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
         String description = intent.getExtras().getString("description");
         String date = intent.getExtras().getString("date");
         String time = intent.getExtras().getString("time");
-         email = intent.getExtras().getString("email");
-         String servicetype =intent.getExtras().getString("servicetype");
-         String profile =intent.getExtras().getString("profile");
+        email = intent.getExtras().getString("email");
+        String profile =intent.getExtras().getString("profile");
         latitude = intent.getDoubleExtra("clatitude", 0.0);
         longitude = intent.getDoubleExtra("clongitude", 0.0);
+        String servicetype = intent.getExtras().getString("servicetype");
 
 
         //accepts button
-        findViewById(R.id.accept).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.end).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 DocumentReference df1 = fstore.collection("Booking").document(email);
                 Map<String, Object> userinfo1= new HashMap<>();
-                userinfo1.put("Request","Approved");
+//                userinfo1.put("Request","Approved");
                 df1.update(userinfo1);
+//
 
+                Toast.makeText(S_completeActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
 
-                String documentKey1 = fstore.collection("Active").document().getId();
-                DocumentReference df = fstore.collection("Active").document(documentKey1);
+                String documentKey1 = fstore.collection("Complete").document().getId();
+                DocumentReference df = fstore.collection("Complete").document(documentKey1);
                 Map<String, Object> userinfo = new HashMap<>();
                 //pushing the data into the firebase
                 userinfo.put("CustomerName",name);
@@ -118,10 +118,10 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                 userinfo.put("ProviderNumber",sphone);
                 userinfo.put("CProfile",profile);
                 userinfo.put("Clatitude",latitude);
-                userinfo.put("ServiceType",servicetype);
                 userinfo.put("Clongitude",longitude);
+                userinfo.put("ServiceType",servicetype);
                 df.set(userinfo);
-                Toast.makeText(pendingrequestActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
+                Toast.makeText(S_completeActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
 
 
 
@@ -172,7 +172,7 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
     }
 
     private void getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
             return;
         }
@@ -184,7 +184,7 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                     currentLocation =location;
                     SupportMapFragment mapFragment = new SupportMapFragment();
                     getSupportFragmentManager().beginTransaction().add(R.id.mapFragment, mapFragment).commit();
-                    mapFragment.getMapAsync( pendingrequestActivity2.this);
+                    mapFragment.getMapAsync( S_completeActivity2.this);
                 }
             }
         });
@@ -235,9 +235,8 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
         } else {
             // Handle the case when the user is not authenticated
             // For example, you can redirect them to the login screen or display a message indicating that they need to log in
-            startActivity(new Intent(pendingrequestActivity2.this,LoginActivity.class));
+            startActivity(new Intent(S_completeActivity2.this,LoginActivity.class));
         }
     }
-
 
 }

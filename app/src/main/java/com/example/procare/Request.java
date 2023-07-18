@@ -2,11 +2,11 @@ package com.example.procare;
 
 public class Request {
 
-    String CustomerTime,CustomerDate,CustomerDescription,CustomerEmail,CustomerName,CustomerNumber,CProfile;
+    String CustomerTime,CustomerDate,CustomerDescription,CustomerEmail,CustomerName,CustomerNumber,CProfile,ServiceType;
     Double Clatitude,Clongitude;
 
     public Request(){}
-    public Request(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber, String CProfile, Double clatitude, Double clongitude) {
+    public Request(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber, String CProfile, String serviceType, Double clatitude, Double clongitude) {
         CustomerTime = customerTime;
         CustomerDate = customerDate;
         CustomerDescription = customerDescription;
@@ -14,8 +14,17 @@ public class Request {
         CustomerName = customerName;
         CustomerNumber = customerNumber;
         this.CProfile = CProfile;
+        ServiceType = serviceType;
         Clatitude = clatitude;
         Clongitude = clongitude;
+    }
+
+    public String getServiceType() {
+        return ServiceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        ServiceType = serviceType;
     }
 
     public String getCProfile() {
