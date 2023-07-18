@@ -33,7 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class PlumberListActivity extends AppCompatActivity  implements OnMapReadyCallback {
+public class PestControlListActivity extends AppCompatActivity    implements OnMapReadyCallback  {
     RecyclerView recyclerView;
     ArrayList<User> userArrayList;
     MyAdapter myAdapter;
@@ -48,12 +48,13 @@ public class PlumberListActivity extends AppCompatActivity  implements OnMapRead
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plumber_list);
+        setContentView(R.layout.activity_pest_control_list);
+
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Fetching Data");
@@ -63,7 +64,7 @@ public class PlumberListActivity extends AppCompatActivity  implements OnMapRead
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fstore = FirebaseFirestore.getInstance();
         userArrayList = new ArrayList<>();
-        myAdapter = new MyAdapter(PlumberListActivity.this, userArrayList);
+        myAdapter = new MyAdapter(PestControlListActivity.this, userArrayList);
         recyclerView.setAdapter(myAdapter);
         // Google map
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -73,7 +74,7 @@ public class PlumberListActivity extends AppCompatActivity  implements OnMapRead
 
     private void EventchangeLister() {
         fstore.collection("Users")
-                .whereEqualTo("Qualification", "Plumber") // Filter electricians by Qualification field
+                .whereEqualTo("Qualification", "PestControl") // Filter electricians by Qualification field
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -142,9 +143,9 @@ public class PlumberListActivity extends AppCompatActivity  implements OnMapRead
                     longitude = currentLocation.getLongitude();
                     EventchangeLister();
                     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
-                    mapFragment.getMapAsync(PlumberListActivity.this);
+                    mapFragment.getMapAsync(PestControlListActivity.this);
                 } else {
-                    Toast.makeText(PlumberListActivity.this, "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PestControlListActivity.this, "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -173,3 +174,4 @@ public class PlumberListActivity extends AppCompatActivity  implements OnMapRead
         }
     }
 }
+

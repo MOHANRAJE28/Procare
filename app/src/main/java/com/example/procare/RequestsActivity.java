@@ -532,6 +532,8 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
                 userinfo.put("Clongitude", longitude);
 
                 df.set(userinfo);
+
+                startActivity(new Intent(RequestsActivity.this,HomeFragment.class));
             }
         });
     }

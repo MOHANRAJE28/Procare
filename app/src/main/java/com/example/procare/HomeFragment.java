@@ -33,6 +33,33 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        plumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PlumberListActivity.class));
+            }
+        });
+
+
+        carpenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),CarpenterListActivity.class));
+            }
+        });
+
+
+        pestcontrol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PestControlListActivity.class));
+            }
+        });
+
+
+
+
+
         return view;
 
     }
