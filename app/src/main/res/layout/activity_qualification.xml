@@ -48,6 +48,7 @@
        android:drawableLeft="@drawable/baseline_edit_note_24"
        android:hint=" Qualifications"
        android:padding="15dp"
+       android:prompt="@string/select_professional"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintHorizontal_bias="0.39"
