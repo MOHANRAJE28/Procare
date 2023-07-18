@@ -22,21 +22,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.005" />
 
-    <EditText
-        android:id="@+id/qualification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_bg"
-        android:drawableLeft="@drawable/baseline_edit_note_24"
-        android:hint=" Qualifications"
-        android:padding="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.39"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile"
-        app:layout_constraintVertical_bias="0.051"
-        app:layout_constraintWidth_percent=".9" />
+<!--    <EditText-->
+<!--        android:id="@+id/qualification"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/edit_text_bg"-->
+<!--        android:drawableLeft="@drawable/baseline_edit_note_24"-->
+<!--        android:hint=" Qualifications"-->
+<!--        android:padding="15dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.39"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/profile"-->
+<!--        app:layout_constraintVertical_bias="0.051"-->
+<!--        app:layout_constraintWidth_percent=".9" />-->
+
+   <Spinner
+    android:id="@+id/spinner_professional"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:entries="@array/professional_categories"
+       tools:ignore="MissingConstraints"
+       android:background="@drawable/edit_text_bg"
+       android:drawableLeft="@drawable/baseline_edit_note_24"
+       android:hint=" Qualifications"
+       android:padding="15dp"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.39"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/profile"
+       app:layout_constraintVertical_bias="0.051"
+       app:layout_constraintWidth_percent=".9"/>
+
+
 
 
     <EditText
@@ -51,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qualification"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_professional"
         app:layout_constraintVertical_bias="0.046"
         app:layout_constraintWidth_percent=".9" />
 

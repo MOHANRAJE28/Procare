@@ -2,10 +2,10 @@ package com.example.procare;
 
 public class Booking {
 
-    String CustomerTime,CustomerDate,CustomerDescription,ProviderEmail,ProviderName,ProviderNumber,SProfile;
+    String CustomerTime,CustomerDate,CustomerDescription,ProviderEmail,ProviderName,ProviderNumber,SProfile,Request;
 
     public Booking(){}
-    public Booking(String customerTime, String customerDate, String customerDescription, String providerEmail, String providerName, String providerNumber, String SProfile) {
+    public Booking(String customerTime, String customerDate, String customerDescription, String providerEmail, String providerName, String providerNumber, String SProfile, String request) {
         CustomerTime = customerTime;
         CustomerDate = customerDate;
         CustomerDescription = customerDescription;
@@ -13,6 +13,15 @@ public class Booking {
         ProviderName = providerName;
         ProviderNumber = providerNumber;
         this.SProfile = SProfile;
+        Request = request;
+    }
+
+    public String getRequest() {
+        return Request;
+    }
+
+    public void setRequest(String request) {
+        Request = request;
     }
 
     public String getSProfile() {

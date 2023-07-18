@@ -71,6 +71,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyviewHo
                 intent.putExtra("time",bookingArrayList.get(position).getCustomerTime());
                 intent.putExtra("description",bookingArrayList.get(position).getCustomerDescription());
                 intent.putExtra("profile",bookingArrayList.get(position).getSProfile());
+                intent.putExtra("approve",bookingArrayList.get(position).getRequest());
                 context.startActivity(intent);
             }
         });

@@ -25,9 +25,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
     Context context;
     ArrayList<Request> requestArrayList;
 
+
+
     public RequestAdapter(Context context, ArrayList<Request> requestArrayList) {
         this.context = context;
         this.requestArrayList = requestArrayList;
+
     }
 
     @NonNull
@@ -65,6 +68,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
                 Toast.makeText(context,"card"+position,Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(context, pendingrequestActivity2.class);
 //                intent.putExtra("profile",requestArrayList.get(position).getProfilephoto());
+
+                intent.putExtra("bkey",requestArrayList.get(position).getBKey());
+                intent.putExtra("rkey",requestArrayList.get(position).getRKey());
                 intent.putExtra("name",requestArrayList.get(position).getCustomerName());
                 intent.putExtra("phone",requestArrayList.get(position).getCustomerNumber());
                 intent.putExtra("email",requestArrayList.get(position).getCustomerEmail());
@@ -75,8 +81,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyviewHo
                 intent.putExtra("clatitude",requestArrayList.get(position).getClatitude());
                 intent.putExtra("profile",requestArrayList.get(position).getCProfile());
                 intent.putExtra("servicetype",requestArrayList.get(position).getServiceType());
-
-
+//                Toast.makeText(v.getContext(), documentIds,Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
             }
         });

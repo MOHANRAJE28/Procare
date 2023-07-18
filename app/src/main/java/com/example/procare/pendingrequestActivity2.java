@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,20 +30,27 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.checkerframework.checker.units.qual.A;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -89,17 +97,57 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
          String profile =intent.getExtras().getString("profile");
         latitude = intent.getDoubleExtra("clatitude", 0.0);
         longitude = intent.getDoubleExtra("clongitude", 0.0);
+        String bkey =intent.getExtras().getString("bkey");
+        String rkey =intent.getExtras().getString("rkey");
+
 
 
         //accepts button
         findViewById(R.id.accept).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+// Query to find the document matching the customer and provider emails
+//                CollectionReference bookingCollectionRef = fstore.collection("Bookings");
+//                Query query = bookingCollectionRef
+//                        .whereEqualTo("CustomerEmail", email)
+//                        .whereEqualTo("ProviderEmail", semail);
+//
+//                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                // Update the request status to "Approved" for the matched document
+//                                DocumentReference documentRef = bookingCollectionRef.document(document.getId());
+//                                Map<String, Object> updateData = new HashMap<>();
+//                                updateData.put("Request", "Approved");
+//                                documentRef.update(updateData)
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void aVoid) {
+//                                                // Request status updated successfully
+//                                            }
+//                                        })
+//                                        .addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                // Handle the failure
+//                                            }
+//                                        });
+//                            }
+//                        } else {
+//                            // Handle the error
+//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
 
-                DocumentReference df1 = fstore.collection("Booking").document(email);
-                Map<String, Object> userinfo1= new HashMap<>();
-                userinfo1.put("Request","Approved");
-                df1.update(userinfo1);
+                DocumentReference Ref = fstore.collection("Bookings").document(bkey);
+                Map<String, Object> userinfo1 = new HashMap<>();
+                //pushing the data into the firebase
+                userinfo1.put("Request","Approvel");
+                Ref.update(userinfo1);
+
 
 
                 String documentKey1 = fstore.collection("Active").document().getId();
@@ -109,7 +157,7 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                 userinfo.put("CustomerName",name);
                 userinfo.put("CustomerEmail",email);
                 userinfo.put("CustomerNumber",phone);
-//                userinfo.put("ServiceType",type);
+                userinfo.put("AKey",documentKey1);
                 userinfo.put("CustomerDescription",description);
                 userinfo.put("CustomerDate",date);
                 userinfo.put("CustomerTime",time);
@@ -124,11 +172,164 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                 Toast.makeText(pendingrequestActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
 
 
+// remove part
+//                CollectionReference requestCollectionRef = fstore.collection("Request");
+//                Query query1 = requestCollectionRef
+//                        .whereEqualTo("CustomerEmail",email)
+//                        .whereEqualTo("ProviderEmail", semail);
+//                query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
+//                            for (DocumentSnapshot document : documents) {
+//                                // Delete each document
+//                                document.getReference().delete()
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void aVoid) {
+//                                                Toast.makeText(pendingrequestActivity2.this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        })
+//                                        .addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                // Handle the failure
+//                                            }
+//                                        });
+//                            }
+//                        } else {
+//                            // Handle the error
+//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+                DocumentReference ref1 =fstore.collection("Request").document(rkey);
+                ref1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getApplicationContext(), "Product deleted successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed to delete product: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
+                startActivity(new Intent(pendingrequestActivity2.this,S_HomeActivity.class));
+
+            }
+        });
+
+
+    //rejected button
+        findViewById(R.id.reject).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DocumentReference Ref = fstore.collection("Bookings").document(bkey);
+                Map<String, Object> userinfo1 = new HashMap<>();
+                //pushing the data into the firebase
+                userinfo1.put("Request","Reject");
+                Ref.update(userinfo1);
+
+
+                DocumentReference ref1 =fstore.collection("Request").document(rkey);
+                ref1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getApplicationContext(), "Product deleted successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed to delete product: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+
+                // Query to find the document matching the customer and provider emails
+//                CollectionReference bookingCollectionRef = fstore.collection("Bookings");
+//                    Query query = bookingCollectionRef
+//                            .whereEqualTo("CustomerEmail", email)
+//                            .whereEqualTo("ProviderEmail", semail);
+//
+//                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                // Update the request status to "Approved" for the matched document
+//                                DocumentReference documentRef = bookingCollectionRef.document(document.getId());
+//                                Map<String, Object> updateData = new HashMap<>();
+//                                updateData.put("Request", "Rejected");
+//                                documentRef.update(updateData)
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void aVoid) {
+//                                                // Request status updated successfully
+//                                            }
+//                                        })
+//                                        .addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                // Handle the failure
+//                                            }
+//                                        });
+//                            }
+//                        } else {
+//                            // Handle the error
+//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+
+// Delete
+//                CollectionReference requestCollectionRef = fstore.collection("Request");
+//                Query query1 = requestCollectionRef
+//                        .whereEqualTo("CustomerEmail",email)
+//                        .whereEqualTo("ProviderEmail", semail);
+//                query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
+//                            for (DocumentSnapshot document : documents) {
+//                                // Delete each document
+//                                document.getReference().delete()
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void aVoid) {
+//                                                Toast.makeText(pendingrequestActivity2.this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        })
+//                                        .addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                // Handle the failure
+//                                            }
+//                                        });
+//                            }
+//                        } else {
+//                            // Handle the error
+//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+
+
+
+                startActivity(new Intent(pendingrequestActivity2.this,S_HomeActivity.class));
 
 
             }
         });
+
+
+
 
 
 
@@ -166,9 +367,6 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                 startActivity(intent);
             }
         });
-
-
-
     }
 
     private void getLastLocation() {
@@ -224,11 +422,11 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     if (value != null) {
-                        semail= value.getString("UserEmail"); //customer email
+                        semail=firebaseUser.getEmail();
+//                        semail= value.getString("UserEmail"); //customer email
                         sname = value.getString("FullName");
                         sphone=value.getString("PhoneNumber");
-//                        cprofile=value.getString("Profilephoto");
-                        // customer name
+
                     }
                 }
             });
@@ -238,6 +436,4 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
             startActivity(new Intent(pendingrequestActivity2.this,LoginActivity.class));
         }
     }
-
-
 }

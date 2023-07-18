@@ -380,12 +380,12 @@ public class S_ActiveRequestActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     public class Active {
-        String CustomerTime, CustomerDate, CustomerDescription, CustomerEmail, CustomerName, CustomerNumber, CProfile,ServiceType;
+        String CustomerTime, CustomerDate, CustomerDescription, CustomerEmail, CustomerName, CustomerNumber, CProfile,ServiceType,AKey;
         Double Clatitude, Clongitude;
 
         public Active() {
         }
-        public Active(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber, String CProfile, String serviceType, Double clatitude, Double clongitude) {
+        public Active(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber, String CProfile, String serviceType, String AKey, Double clatitude, Double clongitude) {
             CustomerTime = customerTime;
             CustomerDate = customerDate;
             CustomerDescription = customerDescription;
@@ -394,8 +394,17 @@ public class S_ActiveRequestActivity extends AppCompatActivity {
             CustomerNumber = customerNumber;
             this.CProfile = CProfile;
             ServiceType = serviceType;
+            this.AKey = AKey;
             Clatitude = clatitude;
             Clongitude = clongitude;
+        }
+
+        public String getAKey() {
+            return AKey;
+        }
+
+        public void setAKey(String AKey) {
+            this.AKey = AKey;
         }
 
         public String getServiceType() {
@@ -529,9 +538,11 @@ public class S_ActiveRequestActivity extends AppCompatActivity {
                             Double clatitude = document.getDouble("Clatitude");
                             Double clongitude = document.getDouble("Clongitude");
                             String servicetype  = document.getString("ServiceType");
+                            String key = document.getString("AKey");
+                            String type = document.getString("ServiceType");
 
                             Active active = new Active(customerTime, customerDate, customerDescription,
-                                    customerEmail, customerName, customerNumber, cProfile,servicetype, clatitude, clongitude);
+                                    customerEmail, customerName, customerNumber, cProfile,servicetype,key, clatitude, clongitude);
                             activeArrayList.add(active);
                         }
 
@@ -602,6 +613,8 @@ public class S_ActiveRequestActivity extends AppCompatActivity {
                     intent.putExtra("clatitude", active.getClatitude());
                     intent.putExtra("profile", active.getCProfile());
                     intent.putExtra("servicetype",active.getServiceType());
+                    intent.putExtra("key",active.getAKey());
+                   // intent.putExtra("type",active.getServiceType());
                     context.startActivity(intent);
                 }
             });

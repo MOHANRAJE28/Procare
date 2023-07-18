@@ -11,10 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,6 +46,8 @@ public class QualificationActivity extends AppCompatActivity {
     ImageView imageViewupload;
     Button   choose,upload;
 
+    Spinner spinnerProfessional;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,14 @@ public class QualificationActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("qulification");
+
+        //spinner
+        spinnerProfessional = findViewById(R.id.spinner_professional);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.professional_categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProfessional.setAdapter(adapter);
+
+
 
         Uri uri =firebaseUser.getPhotoUrl();
         //set the user's current qualification
@@ -89,6 +101,7 @@ public class QualificationActivity extends AppCompatActivity {
 
         String providerqualification = qualification.getText().toString();
         String providerexperience =experience.getText().toString();
+        String providerProfessional = spinnerProfessional.getSelectedItem().toString();
 
         //validation
         boolean check = validateinfo(providerqualification, providerexperience);

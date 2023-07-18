@@ -353,6 +353,8 @@ public class S_AddressActivity extends AppCompatActivity implements OnMapReadyCa
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(this);
+        // Add zoom controls to the map
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
     @Override
     public void onMapClick(LatLng latLng) {

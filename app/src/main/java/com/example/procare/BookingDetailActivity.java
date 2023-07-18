@@ -40,7 +40,7 @@ public class BookingDetailActivity extends AppCompatActivity {
         desc = findViewById(R.id.description);
         sdate = findViewById(R.id.date);
         stime = findViewById(R.id.time);
-        request = findViewById(R.id.request);
+        request = findViewById(R.id.approve);
         profileimg =findViewById(R.id.profile_image);
 
 
@@ -54,6 +54,8 @@ public class BookingDetailActivity extends AppCompatActivity {
         String time = intent.getExtras().getString("time");
         String email = intent.getExtras().getString("email");
         String profile = intent.getStringExtra("profile");
+        String approve = intent.getExtras().getString("approve");
+
 
         //
         String profileUrl = intent.getStringExtra("profile");
@@ -72,7 +74,7 @@ public class BookingDetailActivity extends AppCompatActivity {
         desc.setText(description);
         sdate.setText(date);
         stime.setText(time);
-//        request.setText();
+        request.setText(approve);
 
         findViewById(R.id.phone).setOnClickListener(new View.OnClickListener() {
             @Override

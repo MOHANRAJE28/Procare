@@ -24,6 +24,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import com.example.procare.RequestAdapter;
+
 
 public class PendingrequestActivity extends AppCompatActivity {
 
@@ -54,7 +56,9 @@ public class PendingrequestActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fstore = FirebaseFirestore.getInstance();
         requestArrayList = new ArrayList<Request>();
-        myAdapter = new RequestAdapter(PendingrequestActivity.this,  requestArrayList);
+//        myAdapter = new RequestAdapter(PendingrequestActivity.this,  requestArrayList);
+        myAdapter = new RequestAdapter(PendingrequestActivity.this, requestArrayList);
+
         recyclerView.setAdapter(myAdapter);
         showuserdata();
     }

@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -86,6 +87,7 @@ public class S_ActiveRequestActivity2 extends AppCompatActivity implements OnMap
         latitude = intent.getDoubleExtra("clatitude", 0.0);
         longitude = intent.getDoubleExtra("clongitude", 0.0);
         String servicetype = intent.getExtras().getString("servicetype");
+        String key =intent.getExtras().getString("key");
 
 
         //accepts button
@@ -93,11 +95,7 @@ public class S_ActiveRequestActivity2 extends AppCompatActivity implements OnMap
             @Override
             public void onClick(View v) {
 
-                DocumentReference df1 = fstore.collection("Booking").document(email);
-                Map<String, Object> userinfo1= new HashMap<>();
-//                userinfo1.put("Request","Approved");
-                df1.update(userinfo1);
-//
+
 
                 Toast.makeText(S_ActiveRequestActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
 
@@ -120,6 +118,27 @@ public class S_ActiveRequestActivity2 extends AppCompatActivity implements OnMap
                 userinfo.put("Clongitude",longitude);
                 userinfo.put("ServiceType",servicetype);
                 df.set(userinfo);
+
+
+                DocumentReference ref1 =fstore.collection("Active").document(key);
+                ref1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getApplicationContext(), "Product deleted successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed to delete product: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+
+
+
+
                 Toast.makeText(S_ActiveRequestActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
 
 

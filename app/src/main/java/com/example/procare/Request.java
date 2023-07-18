@@ -2,11 +2,11 @@ package com.example.procare;
 
 public class Request {
 
-    String CustomerTime,CustomerDate,CustomerDescription,CustomerEmail,CustomerName,CustomerNumber,CProfile,ServiceType;
+    String CustomerTime,CustomerDate,CustomerDescription,CustomerEmail,CustomerName,CustomerNumber,CProfile,ServiceType,BKey,RKey;
     Double Clatitude,Clongitude;
 
     public Request(){}
-    public Request(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber, String CProfile, String serviceType, Double clatitude, Double clongitude) {
+    public Request(String customerTime, String customerDate, String customerDescription, String customerEmail, String customerName, String customerNumber, String CProfile, String serviceType, String BKey, String RKey, Double clatitude, Double clongitude) {
         CustomerTime = customerTime;
         CustomerDate = customerDate;
         CustomerDescription = customerDescription;
@@ -15,8 +15,26 @@ public class Request {
         CustomerNumber = customerNumber;
         this.CProfile = CProfile;
         ServiceType = serviceType;
+        this.BKey = BKey;
+        this.RKey = RKey;
         Clatitude = clatitude;
         Clongitude = clongitude;
+    }
+
+    public String getBKey() {
+        return BKey;
+    }
+
+    public void setBKey(String BKey) {
+        this.BKey = BKey;
+    }
+
+    public String getRKey() {
+        return RKey;
+    }
+
+    public void setRKey(String RKey) {
+        this.RKey = RKey;
     }
 
     public String getServiceType() {
