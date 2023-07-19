@@ -113,7 +113,7 @@ public class S_PriceAddFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), EditProductActivity.class));
+                startActivity(new Intent(getContext(), PriceAddActivity.class));
             }
         });
 

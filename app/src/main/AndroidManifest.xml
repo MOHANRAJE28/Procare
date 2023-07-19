@@ -5,7 +5,7 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission
@@ -100,7 +100,17 @@
             android:exported="true" />
         <activity
             android:name=".S_HomeActivity"
-            android:exported="true" />
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+.
+        </activity>
+
+
+
         <activity
             android:name=".OnboardingActivity"
             android:exported="true" />
@@ -116,11 +126,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
