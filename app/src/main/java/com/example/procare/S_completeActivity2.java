@@ -7,11 +7,13 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +124,17 @@ public class S_completeActivity2 extends AppCompatActivity implements OnMapReady
                 userinfo.put("ServiceType",servicetype);
                 df.set(userinfo);
                 Toast.makeText(S_completeActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
+
+                String rejectionMessage = "Work is Completed";
+                Intent my_intent = new Intent(getApplicationContext(),S_HomeActivity.class);
+
+                PendingIntent my_pi = PendingIntent.getActivity(getApplicationContext(),0,my_intent,0);
+
+                SmsManager mysms =SmsManager.getDefault();
+                mysms.sendTextMessage(phone,null,rejectionMessage,my_pi,null);
+
+                Toast.makeText(S_completeActivity2.this, "successfully send the message", Toast.LENGTH_SHORT).show();
+
 
 
 

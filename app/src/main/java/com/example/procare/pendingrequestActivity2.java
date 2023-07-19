@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.PendingIntent;
+import android.telephony.SmsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -70,6 +72,7 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
     String  sname,semail,sphone;
     double latitude,longitude;
     String email;
+    String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,46 +110,15 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
             @Override
             public void onClick(View v) {
 // Query to find the document matching the customer and provider emails
-//                CollectionReference bookingCollectionRef = fstore.collection("Bookings");
-//                Query query = bookingCollectionRef
-//                        .whereEqualTo("CustomerEmail", email)
-//                        .whereEqualTo("ProviderEmail", semail);
-//
-//                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                // Update the request status to "Approved" for the matched document
-//                                DocumentReference documentRef = bookingCollectionRef.document(document.getId());
-//                                Map<String, Object> updateData = new HashMap<>();
-//                                updateData.put("Request", "Approved");
-//                                documentRef.update(updateData)
-//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                            @Override
-//                                            public void onSuccess(Void aVoid) {
-//                                                // Request status updated successfully
-//                                            }
-//                                        })
-//                                        .addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-//                                                // Handle the failure
-//                                            }
-//                                        });
-//                            }
-//                        } else {
-//                            // Handle the error
-//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
+
 
                 DocumentReference Ref = fstore.collection("Bookings").document(bkey);
                 Map<String, Object> userinfo1 = new HashMap<>();
                 //pushing the data into the firebase
                 userinfo1.put("Request","Approvel");
                 Ref.update(userinfo1);
+
+                String rejectionMessage = "Request is Approved";
 
 
 
@@ -171,39 +143,7 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                 df.set(userinfo);
                 Toast.makeText(pendingrequestActivity2.this,"successfully Approved",Toast.LENGTH_SHORT).show();
 
-
-// remove part
-//                CollectionReference requestCollectionRef = fstore.collection("Request");
-//                Query query1 = requestCollectionRef
-//                        .whereEqualTo("CustomerEmail",email)
-//                        .whereEqualTo("ProviderEmail", semail);
-//                query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
-//                            for (DocumentSnapshot document : documents) {
-//                                // Delete each document
-//                                document.getReference().delete()
-//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                            @Override
-//                                            public void onSuccess(Void aVoid) {
-//                                                Toast.makeText(pendingrequestActivity2.this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        })
-//                                        .addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-//                                                // Handle the failure
-//                                            }
-//                                        });
-//                            }
-//                        } else {
-//                            // Handle the error
-//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
+//remove
                 DocumentReference ref1 =fstore.collection("Request").document(rkey);
                 ref1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -217,7 +157,18 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                     }
                 });
 
-                startActivity(new Intent(pendingrequestActivity2.this,S_HomeActivity.class));
+                Intent my_intent = new Intent(getApplicationContext(),S_HomeActivity.class);
+
+                PendingIntent my_pi = PendingIntent.getActivity(getApplicationContext(),0,my_intent,0);
+
+                SmsManager mysms =SmsManager.getDefault();
+                mysms.sendTextMessage(phone,null,rejectionMessage,my_pi,null);
+
+                Toast.makeText(pendingrequestActivity2.this, "successfully send the message", Toast.LENGTH_SHORT).show();
+
+
+
+                //startActivity(new Intent(pendingrequestActivity2.this,S_HomeActivity.class));
 
             }
         });
@@ -234,6 +185,8 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
                 userinfo1.put("Request","Reject");
                 Ref.update(userinfo1);
 
+                // Send rejection message
+                String rejectionMessage = "Rejected";
 
                 DocumentReference ref1 =fstore.collection("Request").document(rkey);
                 ref1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -251,86 +204,23 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
 
 
 
-                // Query to find the document matching the customer and provider emails
-//                CollectionReference bookingCollectionRef = fstore.collection("Bookings");
-//                    Query query = bookingCollectionRef
-//                            .whereEqualTo("CustomerEmail", email)
-//                            .whereEqualTo("ProviderEmail", semail);
-//
-//                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                // Update the request status to "Approved" for the matched document
-//                                DocumentReference documentRef = bookingCollectionRef.document(document.getId());
-//                                Map<String, Object> updateData = new HashMap<>();
-//                                updateData.put("Request", "Rejected");
-//                                documentRef.update(updateData)
-//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                            @Override
-//                                            public void onSuccess(Void aVoid) {
-//                                                // Request status updated successfully
-//                                            }
-//                                        })
-//                                        .addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-//                                                // Handle the failure
-//                                            }
-//                                        });
-//                            }
-//                        } else {
-//                            // Handle the error
-//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
 
-// Delete
-//                CollectionReference requestCollectionRef = fstore.collection("Request");
-//                Query query1 = requestCollectionRef
-//                        .whereEqualTo("CustomerEmail",email)
-//                        .whereEqualTo("ProviderEmail", semail);
-//                query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
-//                            for (DocumentSnapshot document : documents) {
-//                                // Delete each document
-//                                document.getReference().delete()
-//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                            @Override
-//                                            public void onSuccess(Void aVoid) {
-//                                                Toast.makeText(pendingrequestActivity2.this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        })
-//                                        .addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-//                                                // Handle the failure
-//                                            }
-//                                        });
-//                            }
-//                        } else {
-//                            // Handle the error
-//                            Log.e("Firestore error", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
+                Intent my_intent = new Intent(getApplicationContext(),S_HomeActivity.class);
+
+                PendingIntent my_pi = PendingIntent.getActivity(getApplicationContext(),0,my_intent,0);
+
+                SmsManager mysms =SmsManager.getDefault();
+                mysms.sendTextMessage(phone,null,rejectionMessage,my_pi,null);
+
+                Toast.makeText(pendingrequestActivity2.this, "successfully send the message", Toast.LENGTH_SHORT).show();
 
 
 
-                startActivity(new Intent(pendingrequestActivity2.this,S_HomeActivity.class));
+                //   startActivity(new Intent(pendingrequestActivity2.this,S_HomeActivity.class));
 
 
             }
         });
-
-
-
-
 
 
 
@@ -368,6 +258,7 @@ public class pendingrequestActivity2 extends AppCompatActivity implements OnMapR
             }
         });
     }
+
 
     private void getLastLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

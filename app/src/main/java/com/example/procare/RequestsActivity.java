@@ -452,9 +452,55 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
         fstore = FirebaseFirestore.getInstance();
 
         date = findViewById(R.id.date);
-        time = findViewById(R.id.time);
-        description = findViewById(R.id.description);
+        date.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    Calendar calendar=Calendar.getInstance();
+                    DatePickerDialog datePickerDialog=new DatePickerDialog(RequestsActivity.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                    month=month+1;
+                                    date.setText(dayOfMonth+"-"+month+"-"+year);
+                                }
+                            },
+                            calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                    datePickerDialog.show();}
+                return false;
+            }
+        });
 
+        time = findViewById(R.id.time);
+        time.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    Calendar calendar = Calendar.getInstance();
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(RequestsActivity.this,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                    String ampm;
+                                    if (hourOfDay >= 12) {
+                                        hourOfDay = hourOfDay - 12;
+                                        ampm = "PM";
+                                    } else {
+                                        ampm = "AM";
+                                    }
+                                    time.setText(hourOfDay + ":" + minute+" "+ampm);
+                                }
+                            },
+                            calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), false);
+                    timePickerDialog.show();
+
+                }
+                return false;
+            }
+        });
+
+        description = findViewById(R.id.description);
         Intent intent = getIntent();
         name = intent.getExtras().getString("name");
         phone = intent.getExtras().getString("phone");
@@ -490,27 +536,7 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
                     latitude = currentLocation.getLatitude();
                     longitude = currentLocation.getLongitude();
                 }
-
                 String documentKey = fstore.collection("Bookings").document().getId();
-
-                DocumentReference df1 = fstore.collection("Bookings").document(documentKey);
-                Map<String, Object> userinfor = new HashMap<>();
-                userinfor.put("CustomerName", cname);
-                userinfor.put("BKey", documentKey);
-                userinfor.put("CustomerEmail", cemail);
-                userinfor.put("CustomerNumber", cphone);
-                userinfor.put("CustomerDescription", Description);
-                userinfor.put("CustomerDate", Date);
-                userinfor.put("CustomerTime", Time);
-                userinfor.put("ServiceType", stype);
-                userinfor.put("ProviderName", sname);
-                userinfor.put("ProviderEmail", semail);
-                userinfor.put("SProfile", sprofile);
-                userinfor.put("Request", "Approve Pending");
-                userinfor.put("ProviderNumber", sphone);
-                df1.set(userinfor);
-
-                Toast.makeText(RequestsActivity.this, "Successfully send the request", Toast.LENGTH_SHORT).show();
 
                 String documentKey1 = fstore.collection("Request").document().getId();
                 DocumentReference df = fstore.collection("Request").document(documentKey1);
@@ -530,10 +556,34 @@ public class RequestsActivity extends AppCompatActivity implements OnMapReadyCal
                 userinfo.put("BKey", documentKey);
                 userinfo.put("Clatitude", latitude);
                 userinfo.put("Clongitude", longitude);
-
                 df.set(userinfo);
 
-                startActivity(new Intent(RequestsActivity.this,HomeFragment.class));
+
+
+                DocumentReference df1 = fstore.collection("Bookings").document(documentKey);
+                Map<String, Object> userinfor = new HashMap<>();
+                userinfor.put("CustomerName", cname);
+                userinfor.put("BKey", documentKey);
+                userinfor.put("CustomerEmail", cemail);
+                userinfor.put("CustomerNumber", cphone);
+                userinfor.put("CustomerDescription", Description);
+                userinfor.put("CustomerDate", Date);
+                userinfor.put("CustomerTime", Time);
+                userinfor.put("ServiceType", stype);
+                userinfor.put("ProviderName", sname);
+                userinfor.put("ProviderEmail", semail);
+                userinfor.put("SProfile", sprofile);
+                userinfor.put("Request", "Approve Pending");
+                userinfor.put("ProviderNumber", sphone);
+                df1.set(userinfor);
+
+
+                Toast.makeText(RequestsActivity.this, "Successfully send the request", Toast.LENGTH_SHORT).show();
+
+//                startActivity(new Intent(RequestsActivity.this,HomeFragment.class));
+                startActivity(new Intent(RequestsActivity.this, HomeFragment.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+
             }
         });
     }
