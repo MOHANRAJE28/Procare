@@ -42,7 +42,8 @@ public class S_HomeFragment extends Fragment {
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),S_completeActivity.class));
+                startActivity(new Intent(getContext(),S_completeActivity
+                        .class));
             }
         });
 

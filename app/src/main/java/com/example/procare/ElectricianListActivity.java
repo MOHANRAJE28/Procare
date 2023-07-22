@@ -85,7 +85,7 @@ public class ElectricianListActivity extends AppCompatActivity implements OnMapR
                         }
 
                         if (currentLocation == null) {
-                            // Handle the case when currentLocation is null (location not available)
+
                             if (progressDialog != null && progressDialog.isShowing())
                                 progressDialog.dismiss();
                             return;
@@ -95,11 +95,11 @@ public class ElectricianListActivity extends AppCompatActivity implements OnMapR
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
                                 User electrician = dc.getDocument().toObject(User.class);
-                                // Check if electrician's location is within the desired range
+                                // Check if electrician's location with reange
                                 double electricianLatitude = electrician.getSlatitude();
                                 double electricianLongitude = electrician.getSlongitude();
 
-                                // Define the range value (10 km)
+                                // range value 20 km
                                 double range = 20;
                                 // Calculate the distance between the current user's location and the electrician's location
                                 float[] distanceResults = new float[1];
@@ -174,30 +174,3 @@ public class ElectricianListActivity extends AppCompatActivity implements OnMapR
     }
 }
 
-
-
-////    private void EventchangeLister() {
-////        fstore.collection("Users")
-////                .whereEqualTo("Qualification", "electrician") // Filter requests by ProviderEmail field
-////                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-////                    @Override
-////                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-////                        if (error != null) {
-////                            if (progressDialog != null && progressDialog.isShowing())
-////                                progressDialog.dismiss();
-////                            Log.e("Firestore error", error.getMessage());
-////                            return;
-////                        }
-////                        userArrayList.clear(); // Clear the previous list
-////                        for (DocumentChange dc : value.getDocumentChanges()) {
-////                            if (dc.getType() == DocumentChange.Type.ADDED) {
-////                                userArrayList.add(dc.getDocument().toObject(User.class));
-////                            }
-////                        }
-////
-////                        myAdapter.notifyDataSetChanged();
-////                        if (progressDialog != null && progressDialog.isShowing())
-////                            progressDialog.dismiss();
-////                    }
-////                });
-////    }}

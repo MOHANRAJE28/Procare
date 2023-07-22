@@ -91,7 +91,8 @@ public class BookFragment extends Fragment {
     }
 
 
-    public void showuserdata() {
+    public void showuserdata
+            () {
         firebaseUser = auth.getCurrentUser();
         if (firebaseUser != null) {
             cemail = firebaseUser.getEmail(); // Retrieve the email of the current user

@@ -18,6 +18,18 @@
 
     </FrameLayout>
 
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bottomNavigationview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:itemTextColor="@color/black"-->
+<!--        android:background="@drawable/bg_bottom_navigation"-->
+<!--        app:itemIconTint="@color/selector_bottom_nav_icon"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:menu="@menu/ss_bottom_nav_bar"-->
+<!--        tools:ignore="MissingConstraints" />-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationview"
         android:layout_width="match_parent"
@@ -28,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/sbottom_nav_bar"
+        app:menu="@menu/ss_bottom_nav_bar"
         tools:ignore="MissingConstraints" />
 
 
