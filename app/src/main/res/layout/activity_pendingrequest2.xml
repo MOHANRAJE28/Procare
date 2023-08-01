@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pendingrequestActivity2">
+    tools:context="com.mohan.procare.pendingrequestActivity2">
 
 
   <de.hdodenhof.circleimageview.CircleImageView

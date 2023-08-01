@@ -32,58 +32,58 @@
         android:theme="@style/Theme.Procare"
         tools:targetApi="31">
         <activity
-            android:name=".SmsdemoActivity"
+            android:name="com.mohan.procare.SmsdemoActivity"
             android:exported="true" >
 
         </activity>
 
         <activity
-            android:name=".PestControlListActivity"
+            android:name="com.mohan.procare.PestControlListActivity"
             android:exported="false" />
         <activity
-            android:name=".CarpenterListActivity"
+            android:name="com.mohan.procare.CarpenterListActivity"
             android:exported="false" />
         <activity
-            android:name=".PlumberListActivity"
+            android:name="com.mohan.procare.PlumberListActivity"
             android:exported="false" />
         <activity
-            android:name=".S_completeActivity2"
+            android:name="com.mohan.procare.S_completeActivity2"
             android:exported="false" />
         <activity
-            android:name=".S_completeActivity"
+            android:name="com.mohan.procare.S_completeActivity"
             android:exported="false" />
         <activity
-            android:name=".S_ActiveRequestActivity2"
+            android:name="com.mohan.procare.S_ActiveRequestActivity2"
             android:exported="false" />
         <activity
-            android:name=".S_ActiveRequestActivity"
+            android:name="com.mohan.procare.S_ActiveRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".S_EditprofileActivity"
+            android:name="com.mohan.procare.S_EditprofileActivity"
             android:exported="false" />
         <activity
-            android:name=".EditProductActivity"
+            android:name="com.mohan.procare.EditProductActivity"
             android:exported="false" />
         <activity
-            android:name=".PriceAddActivity"
+            android:name="com.mohan.procare.PriceAddActivity"
             android:exported="false" />
         <activity
-            android:name=".BookingDetailActivity"
+            android:name="com.mohan.procare.BookingDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".pendingrequestActivity2"
+            android:name="com.mohan.procare.pendingrequestActivity2"
             android:exported="true" />
         <activity
-            android:name=".PendingrequestActivity"
+            android:name="com.mohan.procare.PendingrequestActivity"
             android:exported="false" />
         <activity
-            android:name=".RequestsActivity"
+            android:name="com.mohan.procare.RequestsActivity"
             android:exported="false" />
         <activity
-            android:name=".EletricbookActivity"
+            android:name="com.mohan.procare.EletricbookActivity"
             android:exported="false" />
         <activity
-            android:name=".ElectricianListActivity"
+            android:name="com.mohan.procare.ElectricianListActivity"
             android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
@@ -101,24 +101,24 @@
             android:value="AIzaSyDUF3dPSGwW4vbo9p9sG-SSyIcu37sWgf8" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name="com.mohan.procare.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".EditprofileActivity"
+            android:name="com.mohan.procare.EditprofileActivity"
             android:exported="false" />
         <activity
-            android:name=".QualificationActivity"
+            android:name="com.mohan.procare.QualificationActivity"
             android:exported="true" />
         <activity
-            android:name=".S_HomeActivity"
+            android:name="com.mohan.procare.S_HomeActivity"
             android:exported="true">
 
 
         </activity>
 
         <activity
-            android:name=".OnboardingActivity"
+            android:name="com.mohan.procare.OnboardingActivity"
             android:exported="true" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -129,16 +129,16 @@
 
 
         <activity
-            android:name=".RegistrationActivity"
+            android:name="com.mohan.procare.RegistrationActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.mohan.procare.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".S_AddressActivity"
+            android:name="com.mohan.procare.S_AddressActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.mohan.procare.MainActivity"
             android:exported="true"></activity>
 
         <meta-data

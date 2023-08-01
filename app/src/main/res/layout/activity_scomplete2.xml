@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".S_completeActivity2">
+    tools:context="com.mohan.procare.S_completeActivity2">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
